@@ -1,5 +1,5 @@
 body {
-  font-family: Avenir, Heveltica, sans-serif;
+  font-family: 'Rubik';
 }
 
 li:nth-child(n):nth-child(-n+9) {
@@ -43,11 +43,12 @@ li {
   margin: 0;
   padding: 0;
   text-align: center;
-  border: 1px solid black;
+  border: 1px solid #444;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #EEE;
+  background: rgb(249,249,249);
+background: linear-gradient(180deg, rgba(249,249,249,1) 0%, rgba(209,209,209,1) 100%);
 }
 
 li span {
