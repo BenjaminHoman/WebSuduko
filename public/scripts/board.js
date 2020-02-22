@@ -7,7 +7,10 @@ Vue.component('tile', {
 	},
 	props: ['value'],
 	template: 
-	`<li><input type="text" v-model="value"></input></li>`
+	`<li>
+		<input type="text" v-if="value !== 0" v-model="value" readonly></input>
+		<input type="text" v-else></input>
+	</li>`
 });
 
 function getHost(){
