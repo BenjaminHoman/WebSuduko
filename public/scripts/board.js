@@ -7,7 +7,7 @@ Vue.component('tile', {
 	},
 	props: ['value'],
 	template: 
-	`<li><span>{{ value }}</span></li>`
+	`<li><input type="text" v-model="value"></input></li>`
 });
 
 function getHost(){
@@ -22,12 +22,12 @@ $(document).ready(function(){
 			values: []
 		},
 		mounted(){
-			console.log('mounted');
 			fetch(getHost()+'gridvalues')
 				.then(response => response.json())
 				.then((data) => {
 					this.values = data;
-				});
+				})
+				.catch(error => console.log(error));
 		}
 	});
 });
