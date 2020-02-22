@@ -10,92 +10,19 @@
 		<meta name="description" content="">
 		<meta name="author" content="Ben Homan">
 		<link rel="stylesheet" href="css/main.css">
+		<script type="text/javascript" src="lib/jquery-3.4.1.min.js"></script>
+		<script type="text/javascript" src="lib/vue.min.js"></script>
+		<script type="text/javascript" src="scripts/board.js"></script>
 	</head>
 	<body>
 		<div class="wrapper">
-		  <ul>
-		    <li><span>1</span></li>
-			<li><span>2</span></li>
-			<li><span>3</span></li>
-			<li><span>1</span></li>
-			<li><span>2</span></li>
-			<li><span>3</span></li>
-			<li><span>1</span></li>
-			<li><span>2</span></li>
-			<li><span>3</span></li>
-			<li><span>4</span></li>
-			<li><span>5</span></li>
-			<li><span>6</span></li>
-			<li><span>4</span></li>
-			<li><span>5</span></li>
-			<li><span>6</span></li>
-			<li><span>4</span></li>
-			<li><span>5</span></li>
-			<li><span>6</span></li>
-			<li><span>7</span></li>
-			<li><span>8</span></li>
-			<li><span>9</span></li>
-			<li><span>7</span></li>
-			<li><span>8</span></li>
-			<li><span>9</span></li>
-			<li><span>7</span></li>
-			<li><span>8</span></li>
-			<li><span>9</span></li>
-			<li><span>1</span></li>
-			<li><span>2</span></li>
-			<li><span>3</span></li>
-			<li><span>1</span></li>
-			<li><span>2</span></li>
-			<li><span>3</span></li>
-			<li><span>1</span></li>
-			<li><span>2</span></li>
-			<li><span>3</span></li>
-			<li><span>4</span></li>
-			<li><span>5</span></li>
-			<li><span>6</span></li>
-			<li><span>4</span></li>
-			<li><span>5</span></li>
-			<li><span>6</span></li>
-			<li><span>4</span></li>
-			<li><span>5</span></li>
-			<li><span>6</span></li>
-			<li><span>7</span></li>
-			<li><span>8</span></li>
-			<li><span>9</span></li>
-			<li><span>7</span></li>
-			<li><span>8</span></li>
-			<li><span>9</span></li>
-			<li><span>7</span></li>
-			<li><span>8</span></li>
-			<li><span>9</span></li>
-			<li><span>1</span></li>
-			<li><span>2</span></li>
-			<li><span>3</span></li>
-			<li><span>1</span></li>
-			<li><span>2</span></li>
-			<li><span>3</span></li>
-			<li><span>1</span></li>
-			<li><span>2</span></li>
-			<li><span>3</span></li>
-			<li><span>4</span></li>
-			<li><span>5</span></li>
-			<li><span>6</span></li>
-			<li><span>4</span></li>
-			<li><span>5</span></li>
-			<li><span>6</span></li>
-			<li><span>4</span></li>
-			<li><span>5</span></li>
-			<li><span>6</span></li>
-			<li><span>7</span></li>
-			<li><span>8</span></li>
-			<li><span>9</span></li>
-			<li><span>7</span></li>
-			<li><span>8</span></li>
-			<li><span>9</span></li>
-			<li><span>7</span></li>
-			<li><span>8</span></li>
-			<li><span>9</span></li>
-		  </ul>
+			<div id="board">
+		  		<ul>
+		  			<tile v-for="value in values" 
+		  					v-bind:value="value">		
+		  			</tile>
+		  		</ul>
+			</div>
 		</div>
 	</body>
 </html>

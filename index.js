@@ -13,4 +13,18 @@ app.get('/', function(req, res){
 	res.render('index', {title: 'Suduko', phrase: 'eat more'});
 });
 
+app.get('/gridvalues', function(req, res){
+	res.status(200).json([
+				1,2,3,1,2,3,1,2,3,
+				4,5,6,4,5,6,4,5,6,
+				7,8,9,7,8,9,7,8,9,
+				1,2,3,1,2,3,1,2,3,
+				4,5,6,4,5,6,4,5,6,
+				7,8,9,7,8,9,7,8,9,
+				1,2,3,1,2,3,1,2,3,
+				4,5,6,4,5,6,4,5,6,
+				7,8,9,7,8,9,7,8,9
+			]);
+});
+
 app.listen(port, () => console.log(`App listening on port ${port}`));
