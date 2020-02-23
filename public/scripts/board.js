@@ -27,6 +27,15 @@ function getHost(){
 	return `http://${host}/`;
 }
 
+function initGridValues(board){
+	fetch(getHost()+'gridvalues')
+		.then(response => response.json())
+		.then((data) => {
+			board.grid = new Grid(data);
+		})
+		.catch(error => console.log(error));
+}
+
 var board = null;
 $(document).ready(function(){
 	board = new Vue({
@@ -35,24 +44,14 @@ $(document).ready(function(){
 			grid: new Grid()
 		},
 		mounted(){
-			fetch(getHost()+'gridvalues')
-				.then(response => response.json())
-				.then((data) => {
-					this.grid = new Grid(data);
-				})
-				.catch(error => console.log(error));
+			initGridValues(this);
 		}
 	});
 });
 
 $(document).keydown(function(event){
 	if(event.keyCode == 32){ //space
-		fetch(getHost()+'gridvalues')
-				.then(response => response.json())
-				.then((data) => {
-					board.grid = new Grid(data);
-				})
-				.catch(error => console.log(error));
+		initGridValues(board);
 		event.preventDefault();
 	}
 });
