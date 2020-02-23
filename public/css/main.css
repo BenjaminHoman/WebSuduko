@@ -98,3 +98,8 @@ li input::selection {
 li input::-moz-selection {
   	background: #fff2a8;
 }
+
+.userEntry {
+	color: #39FF14;
+	caret-color: black;
+}

@@ -12,14 +12,15 @@
 		<link rel="stylesheet" href="css/main.css">
 		<script type="text/javascript" src="lib/jquery-3.4.1.min.js"></script>
 		<script type="text/javascript" src="lib/vue.min.js"></script>
+		<script type="text/javascript" src="scripts/grid.js"></script>
 		<script type="text/javascript" src="scripts/board.js"></script>
 	</head>
 	<body>
 		<div class="wrapper">
 			<div id="board">
 		  		<ul>
-		  			<tile v-for="value in values" 
-		  					v-bind:value="value">		
+		  			<grid-tile v-for="tile in grid.tiles"
+		  					v-bind:tile="tile">		
 		  			</tile>
 		  		</ul>
 			</div>
