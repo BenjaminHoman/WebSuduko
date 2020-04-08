@@ -1,22 +1,7 @@
 const solver = require('./solver');
 const constants = require('./constants');
+const utils = require('./utils');
 const shuffle = require('shuffle-array');
-
-function flatten(arr){
-	return [].concat.apply([], arr);
-}
-
-function each_slice(arr, n, fn){
-	let result = [];
-	for (let i = 0, l = arr.length; i < l; i += n){
-    	result.push(fn(arr.slice(i, i + n)));
-  	}
-  	return result;
-}
-
-function zip(arr, ...arrs){
-	return arr.map((val, i) => arrs.reduce((a, arr) => [...a, arr[i]], [val]));
-}
 
 exports.SudukoGenerator = class extends solver.SudukoSolver {
 	constructor() {
@@ -39,7 +24,7 @@ exports.SudukoGenerator = class extends solver.SudukoSolver {
 	}
 
 	getGrid(){
-		return this.puzzle;
+		return utils.flatten(this.puzzle);
 	}
 
 	*nextNumber() {
@@ -49,7 +34,7 @@ exports.SudukoGenerator = class extends solver.SudukoSolver {
 	}
 
 	removeAnswers(grid, numberToRemove){
-		let flat_grid = flatten(grid),
+		let flat_grid = utils.flatten(grid),
 			n = flat_grid.length;
 
 		let removedIndices = shuffle(new Array(numberToRemove).fill(0).concat(new Array(n-numberToRemove).fill(1)));
@@ -59,6 +44,6 @@ exports.SudukoGenerator = class extends solver.SudukoSolver {
 				flat_grid[i] = constants.BLANK;
 			}
 		}
-		return each_slice(flat_grid, constants.GRID_SIZE, (arr) => arr);
+		return utils.each_slice(flat_grid, constants.GRID_SIZE, (arr) => arr);
 	}
 }

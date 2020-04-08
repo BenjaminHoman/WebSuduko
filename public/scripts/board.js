@@ -2,9 +2,6 @@
 
 Vue.component('grid-tile', {
 	methods: {
-		isReadOnly: function(tile){
-			return tile.isReadOnly();
-		},
 		isDigit: function(event){
 			let keyCode = (event.keyCode ? event.keyCode : event.which);
 			//only allow numbers 1-9
@@ -16,9 +13,20 @@ Vue.component('grid-tile', {
 	props: ['tile'],
 	template: 
 	`<li>
-		<input type="text" v-if="isReadOnly(tile)" v-model="tile.digit" readonly></input>
-		<input type="text" v-else v-model.number="tile.inputDigit" v-model="tile.inputDigit" :maxlength="1" 
-				@keypress="isDigit" class="userEntry"></input>
+
+		<input type="text" 
+			v-if="tile.isReadOnly()" 
+			v-model="tile.digit" 
+			readonly></input>
+
+		<input type="text" 
+			v-else 
+			v-model.number="tile.inputDigit" 
+			v-model="tile.inputDigit" 
+			:maxlength="1" 
+			@keypress="isDigit" 
+			class="userEntry"></input>
+
 	</li>`
 });
 
@@ -36,6 +44,20 @@ function initGridValues(board){
 		.catch(error => console.log(error));
 }
 
+function checkValues(board){
+	console.log(board.grid.values());
+	fetch(getHost()+'check', {
+		method: 'post',
+		headers: new Headers({'content-type': 'application/json'}),
+		body: JSON.stringify(board.grid.values())
+	})
+	.then(response => response.json())
+	.then((data) => {
+		console.log('done');
+	})
+	.catch(error => console.log(error));
+}
+
 var board = null;
 $(document).ready(function(){
 	board = new Vue({
@@ -50,8 +72,12 @@ $(document).ready(function(){
 });
 
 $(document).keydown(function(event){
-	if(event.keyCode == 32){ //space
+	if (event.keyCode == 32){ // space
 		initGridValues(board);
+		event.preventDefault();
+
+	} else if (event.keyCode == 67){ // c
+		checkValues(board);
 		event.preventDefault();
 	}
 });

@@ -69,6 +69,7 @@ li input {
     font-size: calc(2vw + 10px);
     text-align: center;
     cursor: pointer;
+    color: #808080;
 }
 
 li:hover {
@@ -100,6 +101,18 @@ li input::-moz-selection {
 }
 
 .userEntry {
-	color: #39FF14;
+	color: black;
 	caret-color: black;
+}
+
+.guess {
+	
+}
+
+.correct {
+
+}
+
+.incorrect {
+
 }
