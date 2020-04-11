@@ -36,7 +36,7 @@ function getHost(){
 }
 
 function initGridValues(board){
-	fetch(getHost()+'gridvalues')
+	fetch(getHost()+'grid')
 		.then(response => response.json())
 		.then((data) => {
 			board.grid = new Grid(data);
@@ -53,7 +53,8 @@ function checkValues(board){
 	})
 	.then(response => response.json())
 	.then((data) => {
-		console.log('done');
+		//board.grid = new Grid(data);
+		console.log(data);
 	})
 	.catch(error => console.log(error));
 }

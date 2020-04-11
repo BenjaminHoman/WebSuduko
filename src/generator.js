@@ -4,22 +4,12 @@ const utils = require('./utils');
 const shuffle = require('shuffle-array');
 
 exports.SudukoGenerator = class extends solver.SudukoSolver {
-	constructor() {
-		const BLANK = [[0,0,0,0,0,0,0,0,0],
-					 [0,0,0,0,0,0,0,0,0],
-					 [0,0,0,0,0,0,0,0,0],
-					 [0,0,0,0,0,0,0,0,0],
-					 [0,0,0,0,0,0,0,0,0],
-					 [0,0,0,0,0,0,0,0,0],
-					 [0,0,0,0,0,0,0,0,0],
-					 [0,0,0,0,0,0,0,0,0],
-					 [0,0,0,0,0,0,0,0,0]];
+	constructor(difficulty) {
+		// generate 1 random grid
+		super(constants.BLANK_GRID, 1);
 
-		//generate 1 random grid
-		super(BLANK, 1);
-
-		//remove answers as needed
-		const ANSWERS_TO_REMOVE = 10;
+		// remove answers as needed
+		const ANSWERS_TO_REMOVE = (difficulty || constants.DIFFICULTY_EASY);
 		this.puzzle = this.removeAnswers(this.snapshot(this.solutions[0]), ANSWERS_TO_REMOVE);
 	}
 

@@ -1,7 +1,7 @@
 
 class Tile {
-	constructor(digit){
-		this.digit = digit;
+	constructor(tile){
+		this.digit = tile.digit;
 		this.inputDigit = null;
 	}
 
@@ -10,13 +10,21 @@ class Tile {
 	}
 
 	value(){
-		return this.isReadOnly() ? this.digit : this.inputDigit;
+		if (this.isReadOnly()){
+			return this.digit;
+
+		} else if (this.inputDigit){
+			return this.inputDigit;
+
+		} else {
+			return 0;
+		}
 	}
 }
 
 class Grid {
 	constructor(grid){
-		this.tiles = (grid || []).map(value => new Tile(value));
+		this.tiles = (grid || []).map(tile => new Tile(tile));
 	}
 
 	values(){

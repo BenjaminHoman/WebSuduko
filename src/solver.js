@@ -1,4 +1,5 @@
 const constants = require('./constants');
+const utils = require('./utils');
 
 class Rules {
 	constructor(){}
@@ -61,6 +62,7 @@ exports.SudukoSolver = class {
 		this.solutionCount = 0;
 		this.grid = grid;
 		this.solutions = [];
+		this.lastIndex = -1;
 		this.rules = new Rules();
 		this.solve();
 	}
@@ -82,6 +84,7 @@ exports.SudukoSolver = class {
 							this.grid[y][x] = i;
 							this.solve();
 							this.grid[y][x] = constants.BLANK;
+							this.lastIndex = utils.toIndex(x, y);
 						}
 					}
 					return;
