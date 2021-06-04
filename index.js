@@ -9,6 +9,7 @@ const utils = require('./src/utils');
 const models = require('./src/models');
 const constants = require('./src/constants');
 const app = express();
+const appRouter = express.Router();
 const port = 3001;
 
 app.engine('html', mustacheExpress());
@@ -23,20 +24,12 @@ app.use(session({
 	saveUninitialized: true
 }));
 
-app.use(function(req, res, next){
+appRouter.use(function(req, res, next){
 	if (!req.session.init){
 		req.session.grid = new generator.SudukoGenerator(5).getGrid();
 		req.session.init = true;
 	}
 	next();
-});
-
-app.get('/', function(req, res){
-	res.render('index');
-});
-
-app.get('/grid', function(req, res){
-	res.status(200).json(req.session.grid);
 });
 
 function reset(req, res, amount){
@@ -45,19 +38,27 @@ function reset(req, res, amount){
 	res.status(200).json(req.session.grid);
 }
 
-app.post('/reset-easy', function(req, res){
+appRouter.get('/', function(req, res){
+	res.render('index');
+});
+
+appRouter.get('/grid', function(req, res){
+	res.status(200).json(req.session.grid);
+});
+
+appRouter.post('/reset-easy', function(req, res){
 	reset(req, res, 6);
 });
 
-app.post('/reset-medium', function(req, res){
+appRouter.post('/reset-medium', function(req, res){
 	reset(req, res, 50);
 });
 
-app.post('/reset-hard', function(req, res){
+appRouter.post('/reset-hard', function(req, res){
 	reset(req, res, 70);
 });
 
-app.post('/submit', function(req, res){
+appRouter.post('/submit', function(req, res){
 	var valid = new validator.SudukoValidator(utils.combine(req.session.grid), 
 												utils.combine(req.body));
 	if (valid.isValid){
@@ -70,4 +71,5 @@ app.post('/submit', function(req, res){
 	}
 });
 
+app.use('/sudoku', appRouter);
 app.listen(port, () => console.log(`App listening on port ${port}`));

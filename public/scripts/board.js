@@ -33,7 +33,7 @@ Vue.component('grid-tile', {
 
 function getHost(){
 	let host = window.location.hostname + (window.location.port ? ':'+window.location.port : '');
-	return `${window.location.protocol}//${host}/`;
+	return `${window.location.protocol}//${host}/sudoku/`;
 }
 
 function doFetch(path, method, body, callback){
