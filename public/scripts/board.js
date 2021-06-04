@@ -19,14 +19,14 @@ Vue.component('grid-tile', {
 			v-model="tile.digit" 
 			readonly></input>
 
-		<input type="text" 
+		<input type="number" 
 			v-else 
 			v-model.number="tile.inputDigit" 
 			v-model="tile.inputDigit" 
 			:maxlength="1" 
 			@keypress="isDigit" 
 			class="userEntry"
-			v-bind:class="{ incorrect: tile.error }"></input>
+			v-bind:class="{ incorrect: tile.error, correct: tile.correct }"></input>
 
 	</li>`
 });
@@ -61,18 +61,25 @@ function initGridValues(board){
 	});
 }
 
-function resetGridValues(board){
-	doPost('reset', null, (data) => {
+function resetGridValues(board, mode){
+	let path = '';
+	if (mode == 'easy')
+		path = 'reset-easy';
+	else if (mode == 'medium')
+		path = 'reset-medium';
+	else
+		path = 'reset-hard';
+	doPost(path, null, (data) => {
 		board.grid = new Grid(data);
 	});
 }
 
-function checkValues(board){
-	doPost('check', JSON.stringify(board.grid.values()), (data) => {
+function submit(board){
+	doPost('submit', JSON.stringify(board.grid.values()), (data) => {
 		if (!data.answer){
-			board.grid.markIncorrect(data.index);
+			board.grid.markIncorrect();
 		} else {
-			board.grid.reset();
+			board.grid.setCorrect();
 		}
 	})
 }
@@ -89,13 +96,16 @@ $(document).ready(function(){
 		}
 	});
 
-	$(".reset_button").click(() => {
-		resetGridValues(board);
+	$(".reset_easy").click(() => {
+		resetGridValues(board, 'easy');
+	});
+	$(".reset_medium").click(() => {
+		resetGridValues(board, 'medium');
+	});
+	$(".reset_hard").click(() => {
+		resetGridValues(board, 'hard');
 	});
 	$(".submit_button").click(() => {
-		checkValues(board);
-	});
-	$(".hint_button").click(() => {
-
+		submit(board);
 	});
 });

@@ -65,6 +65,19 @@ li input {
 	text-align: center;
 	cursor: pointer;
 	color: #808080;
+	-webkit-appearance: none;
+}
+
+/* remove number input arrows */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* remove number input arrows */
+input[type=number] {
+  -moz-appearance: textfield;
 }
 
 li:hover {
@@ -105,7 +118,7 @@ li input::-moz-selection {
 }
 
 .correct {
-
+	color: #00e100 !important;
 }
 
 .incorrect {

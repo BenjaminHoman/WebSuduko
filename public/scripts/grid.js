@@ -4,6 +4,7 @@ class Tile {
 		this.digit = tile;
 		this.inputDigit = null;
 		this.error = false;
+		this.correct = false;
 	}
 
 	isReadOnly(){
@@ -21,6 +22,17 @@ class Tile {
 			return 0;
 		}
 	}
+
+	setCorrect(){
+		if (this.inputDigit){
+			this.correct = true;
+		}
+	}
+
+	setIncorrect(){
+		this.error = true;
+		this.correct = false;
+	}
 }
 
 class Grid {
@@ -32,8 +44,16 @@ class Grid {
 		return this.tiles.map(tile => tile.value());
 	}
 
-	markIncorrect(index){
-		this.tiles[index].error = true;
+	markIncorrect(){
+		this.tiles.forEach((tile) => {
+			tile.setIncorrect();
+		});
+	}
+
+	setCorrect(){
+		this.tiles.forEach((tile) => {
+			tile.setCorrect();
+		});
 	}
 
 	reset(){

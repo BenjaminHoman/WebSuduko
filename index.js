@@ -39,13 +39,25 @@ app.get('/grid', function(req, res){
 	res.status(200).json(req.session.grid);
 });
 
-app.post('/reset', function(req, res){
-	req.session.grid = new generator.SudukoGenerator(20).getGrid();
+function reset(req, res, amount){
+	req.session.grid = new generator.SudukoGenerator(amount).getGrid();
 	req.session.init = true;
 	res.status(200).json(req.session.grid);
+}
+
+app.post('/reset-easy', function(req, res){
+	reset(req, res, 6);
 });
 
-app.post('/check', function(req, res){
+app.post('/reset-medium', function(req, res){
+	reset(req, res, 50);
+});
+
+app.post('/reset-hard', function(req, res){
+	reset(req, res, 70);
+});
+
+app.post('/submit', function(req, res){
 	var valid = new validator.SudukoValidator(utils.combine(req.session.grid), 
 												utils.combine(req.body));
 	if (valid.isValid){
