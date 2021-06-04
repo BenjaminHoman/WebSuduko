@@ -16,7 +16,7 @@ app.engine('html', mustacheExpress());
 app.set('view engine', 'html');
 app.set('views', __dirname + '/views');
 
-app.use(express.static('public'));
+app.use('/sudoku', express.static('public'));
 app.use(bodyParser.json());
 app.use(session({
 	secret: 'insecure',
