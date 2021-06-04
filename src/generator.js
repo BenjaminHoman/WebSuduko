@@ -27,7 +27,8 @@ exports.SudukoGenerator = class extends solver.SudukoSolver {
 		let flat_grid = utils.flatten(grid),
 			n = flat_grid.length;
 
-		let removedIndices = shuffle(new Array(numberToRemove).fill(0).concat(new Array(n-numberToRemove).fill(1)));
+		let removedIndices = shuffle(new Array(numberToRemove).fill(0)
+			.concat(new Array(n-numberToRemove).fill(1)));
 
 		for (let i = 0; i < flat_grid.length; i++){
 			if (removedIndices[i] == constants.BLANK){

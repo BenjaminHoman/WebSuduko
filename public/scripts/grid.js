@@ -1,8 +1,9 @@
 
 class Tile {
 	constructor(tile){
-		this.digit = tile.digit;
+		this.digit = tile;
 		this.inputDigit = null;
+		this.error = false;
 	}
 
 	isReadOnly(){
@@ -29,5 +30,15 @@ class Grid {
 
 	values(){
 		return this.tiles.map(tile => tile.value());
+	}
+
+	markIncorrect(index){
+		this.tiles[index].error = true;
+	}
+
+	reset(){
+		this.tiles.forEach(function(tile){
+			tile.error = false;
+		});
 	}
 }

@@ -62,7 +62,7 @@ exports.SudukoSolver = class {
 		this.solutionCount = 0;
 		this.grid = grid;
 		this.solutions = [];
-		this.lastIndex = -1;
+		this.lastTry = -1;
 		this.rules = new Rules();
 		this.solve();
 	}
@@ -82,9 +82,9 @@ exports.SudukoSolver = class {
 					for (var i of this.nextNumber()){
 						if (this.rules.isValid(this.grid, x, y, i)){
 							this.grid[y][x] = i;
+							this.lastTry = utils.toIndex(x, y);
 							this.solve();
 							this.grid[y][x] = constants.BLANK;
-							this.lastIndex = utils.toIndex(x, y);
 						}
 					}
 					return;

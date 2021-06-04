@@ -6,24 +6,38 @@
 		<meta http-equiv="Expires" content="0" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no" />
 		<meta charset="utf-8">
-		<title>{{title}}</title>
+		<title>Suduko</title>
 		<meta name="description" content="">
 		<meta name="author" content="Ben Homan">
 		<link rel="stylesheet" href="css/main.css">
+		<link rel="stylesheet" href="css/button.css">
+		<link rel="stylesheet" href="css/board.css">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 		<script type="text/javascript" src="lib/jquery-3.4.1.min.js"></script>
 		<script type="text/javascript" src="lib/vue.min.js"></script>
 		<script type="text/javascript" src="scripts/grid.js"></script>
 		<script type="text/javascript" src="scripts/board.js"></script>
 	</head>
 	<body>
-		<div class="wrapper">
-			<div id="board">
+		<main class="wrapper">
+			<div class="desktop_buttons">
+				<button class="btn first reset_button">Reset</button>
+				<button class="btn first submit_button">Submit<i class="fas fa-check-square"></i></button>
+				<button class="btn first hint_button">Hint</button>
+			</div>
+			<div id="board" class="board">
 		  		<ul>
 		  			<grid-tile v-for="tile in grid.tiles"
 		  					v-bind:tile="tile">		
 		  			</tile>
 		  		</ul>
+
+		  		<div class="mobile_buttons">
+			  		<button class="btn first reset_button">Reset</button>
+					<button class="btn first submit_button">Submit<i class="fas fa-check-square"></i></button>
+					<button class="btn first hint_button">Hint</button>
+				</div>
 			</div>
-		</div>
+		</main>
 	</body>
 </html>

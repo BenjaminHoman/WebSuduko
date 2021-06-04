@@ -6,6 +6,7 @@ const generator = require('./src/generator');
 const solver = require('./src/solver');
 const validator = require('./src/validator');
 const utils = require('./src/utils');
+const models = require('./src/models');
 const constants = require('./src/constants');
 const app = express();
 const port = 3001;
@@ -24,31 +25,36 @@ app.use(session({
 
 app.use(function(req, res, next){
 	if (!req.session.init){
-		req.session.grid = new generator.SudukoGenerator().getGrid();
+		req.session.grid = new generator.SudukoGenerator(5).getGrid();
 		req.session.init = true;
 	}
 	next();
 });
 
 app.get('/', function(req, res){
-	res.render('index', {title: 'Suduko'});
+	res.render('index');
 });
 
 app.get('/grid', function(req, res){
-	res.status(200).json(req.session.grid.map(n => {
-		return {
-			digit: n,
-			meta: constants.META_NONE
-		}
-	}));
+	res.status(200).json(req.session.grid);
+});
+
+app.post('/reset', function(req, res){
+	req.session.grid = new generator.SudukoGenerator(20).getGrid();
+	req.session.init = true;
+	res.status(200).json(req.session.grid);
 });
 
 app.post('/check', function(req, res){
-	let valid = new validator.SudukoValidator(utils.each_slice(req.body, constants.GRID_SIZE, r => r));
+	var valid = new validator.SudukoValidator(utils.combine(req.session.grid), 
+												utils.combine(req.body));
 	if (valid.isValid){
 		res.status(200).json({answer:true});
 	} else {
-		res.status(200).json({answer:false, index: valid.lastIndex});
+		if (valid.lastIndex != -1)
+			res.status(200).json({answer:false, index: valid.lastIndex});
+		else
+			res.status(200).json({answer:false, index: valid.lastTry});
 	}
 });
 

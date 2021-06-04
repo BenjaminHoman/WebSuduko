@@ -14,7 +14,7 @@ Vue.component('grid-tile', {
 	template: 
 	`<li>
 
-		<input type="text" 
+			<input type="text" 
 			v-if="tile.isReadOnly()" 
 			v-model="tile.digit" 
 			readonly></input>
@@ -25,38 +25,56 @@ Vue.component('grid-tile', {
 			v-model="tile.inputDigit" 
 			:maxlength="1" 
 			@keypress="isDigit" 
-			class="userEntry"></input>
+			class="userEntry"
+			v-bind:class="{ incorrect: tile.error }"></input>
 
 	</li>`
 });
 
 function getHost(){
 	let host = window.location.hostname + (window.location.port ? ':'+window.location.port : '');
-	return `http://${host}/`;
+	return `${window.location.protocol}//${host}/`;
+}
+
+function doFetch(path, method, body, callback){
+	fetch(getHost()+path, {
+		method: method,
+		body: body,
+		headers: new Headers({'content-type': 'application/json'})
+	})
+	.then(response => response.json())
+	.then(data => callback(data))
+	.catch(error => console.error(`Error could not fetch ${path} with ${error}`));
+}
+
+function doGet(path, callback){
+	doFetch(path, 'get', null, callback);
+}
+
+function doPost(path, body, callback){
+	doFetch(path, 'post', body, callback);
 }
 
 function initGridValues(board){
-	fetch(getHost()+'grid')
-		.then(response => response.json())
-		.then((data) => {
-			board.grid = new Grid(data);
-		})
-		.catch(error => console.log(error));
+	doGet('grid', (data) => {
+		board.grid = new Grid(data);
+	});
+}
+
+function resetGridValues(board){
+	doPost('reset', null, (data) => {
+		board.grid = new Grid(data);
+	});
 }
 
 function checkValues(board){
-	console.log(board.grid.values());
-	fetch(getHost()+'check', {
-		method: 'post',
-		headers: new Headers({'content-type': 'application/json'}),
-		body: JSON.stringify(board.grid.values())
+	doPost('check', JSON.stringify(board.grid.values()), (data) => {
+		if (!data.answer){
+			board.grid.markIncorrect(data.index);
+		} else {
+			board.grid.reset();
+		}
 	})
-	.then(response => response.json())
-	.then((data) => {
-		//board.grid = new Grid(data);
-		console.log(data);
-	})
-	.catch(error => console.log(error));
 }
 
 var board = null;
@@ -70,15 +88,14 @@ $(document).ready(function(){
 			initGridValues(this);
 		}
 	});
-});
 
-$(document).keydown(function(event){
-	if (event.keyCode == 32){ // space
-		initGridValues(board);
-		event.preventDefault();
-
-	} else if (event.keyCode == 67){ // c
+	$(".reset_button").click(() => {
+		resetGridValues(board);
+	});
+	$(".submit_button").click(() => {
 		checkValues(board);
-		event.preventDefault();
-	}
+	});
+	$(".hint_button").click(() => {
+
+	});
 });

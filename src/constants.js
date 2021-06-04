@@ -21,3 +21,5 @@ exports.BLANK_GRID = [[0,0,0,0,0,0,0,0,0],
 
 exports.META_ERROR = -1;
 exports.META_NONE = 0;
+
+exports.ERROR_NONE = 0;
